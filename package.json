@@ -32,13 +32,9 @@
     "nodemon": "^2.0.6"
   },
   "scripts": {
-    "build":"cd clients && npm run build",
-    "install": "cd clients && npm install",
-    "client": "cd clients && npm start",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
     "start": "NODE_ENV=production node server.js",
-    "server": "nodemon server.js",
-    "heroku-postbuild": "npm run install && npm run build"
+    "server": "nodemon server.js"
+    
   },
   "author": "",
   "license": "ISC"
