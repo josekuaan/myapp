@@ -24,7 +24,9 @@ DBConnect()
 app.use(express.json());
 app.use(fileupload());
 // console.log(path.join(__dirname, "clients","build", "index.html")) 
-
+app.get('/', (req,res) =>{
+   return res.send('welcome');
+  }); 
 
 app.use("/api/investment", investment);
 app.use("/api/user/withdraw", withdraw);
