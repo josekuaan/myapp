@@ -32,12 +32,12 @@ app.use("/api/user/auth", auth);
 app.use("/api/user/", mailer);
   
    
-if (process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname,'/clients/build')));
-}
- app.get('/*', (req,res) =>{
- return res.sendFile(path.join(__dirname+"/clients","build", "index.html" ));
-}); 
+// if (process.env.NODE_ENV === "production"){
+//   app.use(express.static(path.join(__dirname,'/clients/build')));
+// }
+//  app.get('/*', (req,res) =>{
+//  return res.sendFile(path.join(__dirname+"/clients","build", "index.html" ));
+// }); 
 
     
 const port= process.env.PORT || 5000  
