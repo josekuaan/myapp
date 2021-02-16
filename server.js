@@ -24,7 +24,7 @@ DBConnect()
 
 app.use(express.json());
 app.use(fileupload());
-app.use(cors());
+app.options('*', cors())
 app.get('/', (req,res) =>{
    return res.send('welcome');
   }); 
