@@ -12,6 +12,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "bcrypt": "^5.0.0",
     "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
@@ -34,7 +35,6 @@
   "scripts": {
     "start": "NODE_ENV=production node server.js",
     "server": "nodemon server.js"
-    
   },
   "author": "",
   "license": "ISC"

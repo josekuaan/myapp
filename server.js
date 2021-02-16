@@ -3,6 +3,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const fileupload = require("express-fileupload");
 var helmet = require('helmet');
+const cors = require("cors");
 
 const app = express()
  
@@ -23,7 +24,7 @@ DBConnect()
 
 app.use(express.json());
 app.use(fileupload());
-// console.log(path.join(__dirname, "clients","build", "index.html")) 
+app.use(cors());
 app.get('/', (req,res) =>{
    return res.send('welcome');
   }); 
