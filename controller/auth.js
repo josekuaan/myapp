@@ -44,7 +44,9 @@ if(!user) return res.status(400).json({success:false,msg:"user not found"})
 //@access  Private/admin
 exports.register= async (req, res) => {
  
-  console.log(req.body)
+  let user = await User.findOne({email:req.body.email})
+  
+  if(user) return res.status(400).json({success:false,msg:"User with this email already exist"})
     const user = await  User.create(req.body)   
      sendTokenResponse(user,200,res)
   } 
