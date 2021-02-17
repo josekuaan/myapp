@@ -24,10 +24,7 @@ DBConnect()
 
 app.use(express.json());
 app.use(fileupload());
-app.options('*', cors())
-app.get('/', (req,res) =>{
-   return res.send('welcome');
-  }); 
+app.use( cors())
 
 app.use("/api/investment", investment);
 app.use("/api/user/withdraw", withdraw);
