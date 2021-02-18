@@ -17,7 +17,7 @@ exports.protect = async (req,res,next )=>{
     //     return res.json({success:undefined,msg:"Please login"})
     // }
 
-    token= req.headers.cookie.split('=')[1]
+    // token= req.headers.cookie.split('=')[1]
        
     try {
         //Make sure token exist
