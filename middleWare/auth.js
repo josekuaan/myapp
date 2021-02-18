@@ -5,12 +5,17 @@ const User=require("../Model/user")
 exports.protect = async (req,res,next )=>{
     
     let token;
-    if(!req.headers.cookie ){
-       return res.json({success:false,msg:"Please login"})
+    if(req.headers.authorization !== undefined && req.headers.authorization.startsWith('Bearer')){
+        token = req.headers.authorization.split(' ')[1]
+    }else{
+        return res.json({success:false,msg:"Please login"})
     }
-    if(req.headers.cookie === undefined ){
-        return res.json({success:undefined,msg:"Please login"})
-    }
+    // if(!req.headers.cookie ){
+       
+    // }
+    // if(req.headers.cookie === undefined ){
+    //     return res.json({success:undefined,msg:"Please login"})
+    // }
 
     token= req.headers.cookie.split('=')[1]
        
