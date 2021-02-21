@@ -71,6 +71,24 @@ const UserSchema= new mongoose.Schema({
         required:true,
         default:false
     },
+    occupation:{ 
+        type:String,
+        },
+    line1:{ 
+        type:String,
+        },
+    line2:{ 
+        type:String,
+        },
+    postal:{ 
+        type:String,
+        },
+    city:{ 
+        type:String,
+        },
+    state:{ 
+        type:String,
+        },
     resetPasswordToken:String,
     resetPasswordExpire:Date,
     createdAt:{
