@@ -62,6 +62,10 @@ const UserSchema= new mongoose.Schema({
         required:true,
         default:'no date'
     },
+    picture:{
+        type:String,
+        default:"no-photo.jpg"
+    },
         status:{
         type:Boolean,
         required:true,
