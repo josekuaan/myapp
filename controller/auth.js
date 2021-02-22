@@ -328,10 +328,6 @@ exports.uploadUserPhoto = async(req,res,next) =>{
  if(file.size > process.env.MAX_FILE_UPLOAD && file.size > process.env.MAX_FILE_UPLOAD) return res.status(400).json({success:false,msg:`Max image size required is 20mb`})
 
 
-//Create a customer file name
-file.name = `photo_${user._id}${path.parse(file.name).ext}`
-file2.name = `photo2_${user._id}${path.parse(file2.name).ext}`
-
 const text= JSON.parse(req.body.text)
 
 const updates={   
@@ -340,24 +336,6 @@ const updates={
             dateIssued:text.dob,     
             photo:[file.name,file2.name]     
   }   
-
-         console.log("rre",updates)
-file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err =>{
-  if(err){
-      console.error(err)     
-      return res.status(500).json({success:false,msg:`problem uploading file`})
-        
-  }  
-   
-})
-file2.mv(`${process.env.FILE_UPLOAD_PATH}/${file2.name}`, async err =>{
-  if(err){
-      console.error(err)     
-      return res.status(500).json({success:false,msg:`problem uploading file`})
-        
-  }            
-   
-})
 
  const uploadedFiles= await User.findByIdAndUpdate(req.params.id, updates,{new:true, runValidators:true})
  return  res.status(200).json({ success:true, msg:uploadedFiles})            
