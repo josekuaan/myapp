@@ -175,7 +175,7 @@ exports.updateAccount = async (req, res, next) => {
     postal,
     city,
     state,
-    picture: req.body.photo[0],
+    picture: req.body.photo,
   };
 
   const result = await User.findByIdAndUpdate(req.params.id, updates, {
