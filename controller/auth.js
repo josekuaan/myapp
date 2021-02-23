@@ -155,51 +155,39 @@ exports.updateAccount = async (req, res, next) => {
     });
   }
 
-  if (req.files !== null) {
-    console.log(req.files);
-    const file = req.files.photo;
+  if (req.body.photo[0] === "undefined")
+    return res
+      .status(400)
+      .json({ success: false, msg: `please upload a complete file` });
+   
+    const {fullName,
+      email,
+      occupation,
+      number,
+      line1,
+      line2,
+      postal,
+      city,
+      state} = JSON.parse(req.body.text);
+    const updates = {
+      fullName,
+      email,
+      occupation,
+      number,
+      line1,
+      line2,
+      postal,
+      city,
+      state,
+      picture: req.body.photo[0],
+    };
 
-    //Chech file size
-    if (
-      file.size > process.env.MAX_FILE_UPLOAD &&
-      file.size > process.env.MAX_FILE_UPLOAD
-    )
-      return res
-        .status(400)
-        .json({ success: false, msg: `Max image size required is 20mb` });
-
-    //Create a customer file name
-    file.name = `profile_${user._id}${path.parse(file.name).ext}`;
-    text = JSON.parse(req.body.text);
-
-    text["picture"] = file.name;
-    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-      if (err) {
-        console.error(err);
-        return res
-          .status(500)
-          .json({ success: false, msg: `problem uploading file` });
-      }
-    });
-    const result = await User.findByIdAndUpdate(req.params.id, text, {
-      new: true,
-      runValidators: true,
-    });
-    if (!result) return res.status(400).json({ msg: "user not found" });
-    console.log(result);
-    return res.status(200).json({ success: true, result });
-  }
-  text = JSON.parse(req.body.text);
-
-  //  console.log("ok",text)
-  const result = await User.findByIdAndUpdate(req.params.id, text, {
+  const result = await User.findByIdAndUpdate(req.params.id, updates, {
     new: true,
     runValidators: true,
   });
   if (!result) return res.status(400).json({ msg: "user not found" });
-  console.log(result);
-  res.status(200).json({ success: true, result });
-  next();
+  return res.status(200).json({ success: true, result });
 };
 
 //@desc    Update user
@@ -362,9 +350,6 @@ exports.uploadUserPhoto = async (req, res, next) => {
       msg: `This user is not authorize to modify this course`,
     });
   }
-  // console.log(req.body.photo[1])
-  // console.log('---=============================================================')
-  // console.log(req.body.photo[1])
 
   if (req.body.photo[0] === "undefined" && req.body.photo[1] === "undefined")
     return res
