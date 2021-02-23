@@ -40,7 +40,7 @@ app.use("/api/user/", mailer);
 // }); 
 
     
-const port= process.env.PORT || 5000  
+const port= process.env.PORT || 50001  
     
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

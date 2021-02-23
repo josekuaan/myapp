@@ -53,7 +53,7 @@ const UserSchema= new mongoose.Schema({
         default:'select id'
     },
     IdNumber:{
-        type:Number,
+        type:String,
         required:true,
         default:0
     },
@@ -61,7 +61,7 @@ const UserSchema= new mongoose.Schema({
         type:String,
         required:true,
         default:'no date'
-    },
+    },   
     picture:{
         type:String,
         default:"no-photo.jpg"

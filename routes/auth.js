@@ -15,11 +15,12 @@ Router.route("/:id/photo").put(
     protect,
     uploadUserPhoto
   );
+  console.log("req.headers.authorization")
 Router.route("/register").post(register)   
 Router.route("/login").post(login)
 Router.route("/forgot-password").post(forgotPassword) 
 Router.get("/logout",protect,logout)
-Router.get("/get-users/",protect,getUsers) 
+Router.get("/get-users",protect,getUsers) 
 Router.get("/get-user/:id",protect,getSingleUser) 
 Router.get("/getMe/:id",protect,getMe) 
 Router.put("/update-account/:id",protect,updateAccount)
