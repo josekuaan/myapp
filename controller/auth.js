@@ -141,7 +141,6 @@ exports.logout = async (req, res, next) => {
 //@route   PUT /api/auth/updateDetails/:id
 //@access  Private
 exports.updateAccount = async (req, res, next) => {
-  let text;
   const user = await User.findById(req.params.id);
 
   if (!user)
@@ -155,32 +154,29 @@ exports.updateAccount = async (req, res, next) => {
     });
   }
 
-  if (req.body.photo[0] === "undefined")
-    return res
-      .status(400)
-      .json({ success: false, msg: `please upload a complete file` });
-   
-    const {fullName,
-      email,
-      occupation,
-      number,
-      line1,
-      line2,
-      postal,
-      city,
-      state} = JSON.parse(req.body.text);
-    const updates = {
-      fullName,
-      email,
-      occupation,
-      number,
-      line1,
-      line2,
-      postal,
-      city,
-      state,
-      picture: req.body.photo[0],
-    };
+  const {
+    fullName,
+    email,
+    occupation,
+    number,
+    line1,
+    line2,
+    postal,
+    city,
+    state,
+  } = JSON.parse(req.body.text);
+  const updates = {
+    fullName,
+    email,
+    occupation,
+    number,
+    line1,
+    line2,
+    postal,
+    city,
+    state,
+    picture: req.body.photo[0],
+  };
 
   const result = await User.findByIdAndUpdate(req.params.id, updates, {
     new: true,
