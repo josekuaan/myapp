@@ -83,7 +83,7 @@ exports.login = async (req, res) => {
   const isMatch = await user.comparePassword(password);
   console.log(isMatch);
 
-  if (!isMatch)
+  if (!isMatch)  
     return res.status(400).json({ success: false, msg: "Incorrect Password" });
   sendTokenResponse(user, 200, res);
 };
