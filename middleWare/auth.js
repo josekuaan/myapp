@@ -4,13 +4,13 @@ const User=require("../Model/user")
 
 exports.protect = async (req,res,next )=>{
     
-
     let token;
     if(req.headers.authorization !== undefined && req.headers.authorization.startsWith('Bearer')){
         token = req.headers.authorization.split(' ')[1]
     }else{
         return res.json({success:false,msg:"Please login"})
     }
+   
     // if(!req.headers.cookie ){
        
     // }
@@ -26,9 +26,9 @@ exports.protect = async (req,res,next )=>{
         return res.json({success:false,msg:"invalid token"})      
     }
 
-
     const decoded = jwt.verify(token,process.env.JWT_SECRETE)
    
+     req.user = await User.findById( decoded.id )                  
      req.user = await User.findById( decoded.id )                  
     
     next()  

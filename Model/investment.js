@@ -51,6 +51,9 @@ const InvestmentSchema= new mongoose.Schema({
         trim:true,
         default:0.000
     },  
+    acct_details:{
+        type:String
+    },
     userId:{
         type:String,
         required:true,

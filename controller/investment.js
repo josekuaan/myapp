@@ -21,9 +21,7 @@ exports.getAllUserInvest= async (req, res) => {
 //@route   GET /api/v1/auth/getSingleUserInvest/:id
 //@access  Private/admin
 exports.getSingleUserInvest= async  (req, res) => {
-  console.log("invest,",req.params.id)
     const invest = await Invest.findById(req.params.id)
-    console.log(invest,req.params.id)
     if(!invest) return res.status(401).json({success:false,msg:`No record`})
     res.status(200).json({ success:true, invest})
   }   
@@ -32,9 +30,9 @@ exports.getSingleUserInvest= async  (req, res) => {
 //@route   GET /api/v1/auth/singleUsersInvest/:id
 //@access  Private/admin
 exports.getAllSingleUserInvest= async  (req, res) => {
-  console.log("invest,",req.params.id)
+  
     const invest = await Invest.find({userId:req.params.id})
-    console.log(invest,req.params.id)
+    
     if(!invest) return res.status(401).json({success:false,msg:`No record`})
     res.status(200).json({ success:true, invest})
   }  
@@ -43,9 +41,9 @@ exports.getAllSingleUserInvest= async  (req, res) => {
 //@route   GET /api/v1/auth/singleUsersInvest/:id
 //@access  Private/admin
 exports.SingleUserInvest= async  (req, res) => { 
-  console.log("invest",{userId:req.params.id})
+  
     const invest = await Invest.find({userId:req.params.id}).sort({_id:-1}).limit(1)
-    console.log(invest,"req.params.i")
+   
     if(!invest) return res.status(401).json({success:false,msg:`No record`})
     res.status(200).json({ success:true, invest})
   }  
@@ -54,9 +52,9 @@ exports.SingleUserInvest= async  (req, res) => {
 //@route   GET /api/v1/auth/singleUsersInvest/:id
 //@access  Private/admin
 exports.Settled= async  (req, res) => { 
-  console.log("invest",{userId:req.params.id})
+ 
     const invest = await Wallet.find({userId:req.params.id})
-    console.log(invest,"req.params.i") 
+   
     if(!invest) return res.status(401).json({success:false,msg:`No record`})
     res.status(200).json({ success:true, invest})
   } 
@@ -88,15 +86,15 @@ exports.submit= async (req, res) => {
     if(type == "deposit"){
       // Convert doller to bitcoin      
     dollarWorthInBitcoin = currentbtcPrice   
-    console.log(dollarWorthInBitcoin)     
-    }else if(type == "withdrawal"){
+       
+    }else if(type === "withdraw"){
       console.log("okok")
       dollarWorthInBitcoin= req.body.amount
     }
      
           
   
-   
+   console.log(req.body.details)
   
    const details ={  
     amount:amt, 
@@ -106,7 +104,8 @@ exports.submit= async (req, res) => {
     txn_id:req.body.txn.split("-")[0],
     userId:req.params.id, 
     name:req.user.fullName,
-    email:req.user.email   
+    email:req.user.email,
+    acct_details:req.body.details   
    }       
    console.log(details)
    const invest = await Invest.create(details)   
@@ -135,19 +134,17 @@ exports.updateWallet= async  (req, res) => {
 
   // const invest = await Invest.findById(req.params.id)  
 
-  console.log("if",req.body)
-  console.log("mm",req.params.id)
+
   // const {withdraw,interest,withdrawable,status}=req.body
   // invest.status =req.body.stat
   // if(!user) return res.status(401).json({success:false,msg:`Could not find user`})
 
     let wallet = await Wallet.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
-    console.log("mm",wallet)
+  
     
     if(!wallet) return res.status(401).json({success:false,msg:`Could not update account`})
 
-      //  invest=Invest.find()
-       console.log("invse",wallet)
+      
     res.status(200).json({ success:true, wallet})
   }
 
@@ -155,19 +152,17 @@ exports.updateWallet= async  (req, res) => {
 
     // const invest = await Invest.findById(req.params.id)  
   
-    console.log("if",req.body)
-    console.log("mm",req.params.id)
     // const {withdraw,interest,withdrawable,status}=req.body
     // invest.status =req.body.stat
     // if(!user) return res.status(401).json({success:false,msg:`Could not find user`})
   
       let wallet = await Wallet.create(req.body)
-      console.log("mm",wallet)
+     
       
       if(!wallet) return res.status(401).json({success:false,msg:`Could not update account`})
   
         //  invest=Invest.find()
-         console.log("invse",wallet)
+   
       res.status(200).json({ success:true, wallet})
     }
 
@@ -180,9 +175,6 @@ exports.updateUser= async  (req, res) => {
 
   // const invest = await Invest.findById(req.params.id)  
 
-  console.log("if",req.body)
-  console.log("mm",req.params.id)
-  // invest.status =req.body.stat
   // if(!user) return res.status(401).json({success:false,msg:`Could not find user`})
   if( req.user.role !== "admin"){ return res.status(400).json({success:false,msg:"You are not An Administrator"})}
   
@@ -190,8 +182,7 @@ exports.updateUser= async  (req, res) => {
     
     if(!invest) return res.status(401).json({success:false,msg:`Could not update account`})
 
-      //  invest=Invest.find()
-       console.log("invse",invest)
+     
     res.status(200).json({ success:true, invest})
   }
 
@@ -262,7 +253,7 @@ res.status(200).json({ success:true, photo:[file.name,file2.name]})
 //@route   DELETE /api/v1/Investment/:id
 //@access  Private
 exports.deleteInvestment = async(req,res,next) =>{
-  console.log("hgh")
+  
    let invest = await Invest.findById(req.params.id)
    
    if(!invest) return res.status(200).json({success:true,msg:`user with id of ${req.params.id} not found`})

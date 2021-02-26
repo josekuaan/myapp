@@ -1,6 +1,5 @@
 // const asyncHandler = require("../middleWare/async")
 const crypto = require("crypto");
-const { request } = require("http");
 const path = require("path");
 const Admin = require("../Model/admin");
 const User = require("../Model/user");
@@ -8,7 +7,6 @@ const sendEmail = require("../utils/sendEmail");
 
 exports.getUsers = async (req, res, next) => {
   const user = await User.find();
-  console.log("userde", user);
   if (!user)
     return res.status(400).json({ success: false, msg: "user not found" });
   //If the user is not an admin, they can only add one bootcamp
@@ -26,7 +24,6 @@ exports.getUsers = async (req, res, next) => {
 exports.getSingleUser = async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
-  console.log("userde", user);
   if (!user)
     return res.status(400).json({ success: false, msg: "user not found" });
   //If the user is not an admin, they can only add one bootcamp
@@ -59,9 +56,7 @@ exports.register = async (req, res) => {
 //@route   POST /api/v1/auth/users
 //@access  Private/admin
 exports.login = async (req, res) => {
-  console.log(req.body);
   const { password, email } = req.body;
-  console.log("user");
   // Validate email and padssword
   if (!email || !password) {
     res
@@ -81,7 +76,6 @@ exports.login = async (req, res) => {
       .json({ success: false, msg: "Incorrect credentials" });
 
   const isMatch = await user.comparePassword(password);
-  console.log(isMatch);
 
   if (!isMatch)  
     return res.status(400).json({ success: false, msg: "Incorrect Password" });
@@ -100,7 +94,6 @@ async function sendTokenResponse(user, statusCode, res) {
   if (process.env.NODE_ENV === "production") {
     options.secure = true;
   }
-  console.log(user);
   return res
     .status(statusCode)
     .cookie("token", token, options)
@@ -190,7 +183,6 @@ exports.updateAccount = async (req, res, next) => {
 //@route   PUT /api/auth/updateDetails/:id
 //@access  Private
 exports.updateUserDetails = async (req, res, next) => {
-  console.log(req.params.id, req.body);
   const user = await User.findById(req.params.id);
 
   if (!user)
@@ -211,7 +203,7 @@ exports.updateUserDetails = async (req, res, next) => {
 //@access  Private
 
 exports.updateUserDetails = async (req, res, next) => {
-  console.log(req.params.id, req.body);
+
   const user = await User.findById(req.params.id);
 
   if (!user)
@@ -237,7 +229,7 @@ exports.updateUserDetails = async (req, res, next) => {
 //@route   DELETE /api/v1/bootcamp/:id
 //@access  Private
 exports.deleteUser = async (req, res, next) => {
-  console.log("jlhnkj");
+  
   const user = await User.findById(req.params.id);
 
   if (!user)
@@ -258,7 +250,6 @@ exports.resetPassword = async (req, res, next) => {
     .createHash("sha256")
     .update(req.params.resettoken)
     .digest("hex");
-  console.log(resetPasswordToken);
   let user = await User.findOne({
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
@@ -281,7 +272,7 @@ exports.resetPassword = async (req, res, next) => {
 //@route   POST /api/v1/auth/forgotpassword
 //@access  Private
 exports.forgotPassword = async (req, res, next) => {
-  console.log(req.body.email);
+  
   const user = await User.findOne({ email: req.body.email }).select(
     "+password"
   );
@@ -293,8 +284,7 @@ exports.forgotPassword = async (req, res, next) => {
   const getResetToken = await user.getResetPasswordToken();
   // console.log(getResetToken)
   user.save({ validateBeforeSave: false });
-  console.log(user);
-  console.log(getResetToken);
+
   //Create reset url
 
   const resetUrl = `${req.protocol}://${req.get(
@@ -316,7 +306,6 @@ exports.forgotPassword = async (req, res, next) => {
       .status(200)
       .json({ success: true, data: "Email sent", msg_id: result.messageId });
   } catch (err) {
-    console.log("hytr", err);
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
 
