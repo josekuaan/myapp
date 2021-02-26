@@ -83,7 +83,7 @@ exports.submit= async (req, res) => {
     const type = req.body.type
     
     
-    if(type == "deposit"){
+    if(type === "deposit"){
       // Convert doller to bitcoin      
     dollarWorthInBitcoin = currentbtcPrice   
        
