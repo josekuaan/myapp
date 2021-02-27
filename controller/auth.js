@@ -283,7 +283,7 @@ exports.forgotPassword = async (req, res, next) => {
   //Get reset token
   const getResetToken = await user.getResetPasswordToken();
   // console.log(getResetToken)
-  user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
 
   //Create reset url
 
@@ -292,7 +292,7 @@ exports.forgotPassword = async (req, res, next) => {
   )}/api/auth/resetpassword/${getResetToken}`;
   const message = `You are recieving this email because you (or someone else) has requested for a change of password.
     Please click the url to reset your password \n\n ${resetUrl}`;
-  console.log(message);
+  // console.log('========',message);
 
   try {
     reqult = sendEmail({
@@ -300,7 +300,7 @@ exports.forgotPassword = async (req, res, next) => {
       subject: "Password reset token",
       message: message,
     });
-    console.log(result);
+    // console.log(result);
 
     return res
       .status(200)
@@ -348,10 +348,12 @@ exports.uploadUserPhoto = async (req, res, next) => {
       .status(400)
       .json({ success: false, msg: `Please fill all the rquired fields` });
   }
+
+  // return
   const updates = {
     IdentificationCard: ID,
     IdNumber: number,
-    dateIssued: dob,
+    dateIssued: dob,  
     photo: [req.body.photo[0], req.body.photo[1]],
   };
 

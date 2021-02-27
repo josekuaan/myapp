@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 
 const sendEmail = async (options) =>{
 
-  console.log(options)
+  // console.log(options)
   const transporter = nodemailer.createTransport({
     port: 465,               // true for 465, false for other ports
     host: "smtp.zoho.com",
@@ -23,6 +23,7 @@ const sendEmail = async (options) =>{
         text: "",
         html: options.message
         };
+        console.log(mailData)
 
   return transporter.verify(async function(error, success) {
  

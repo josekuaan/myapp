@@ -76,21 +76,26 @@ const UserSchema= new mongoose.Schema({
         },
     line1:{ 
         type:String,
+         default:""
         },
     line2:{ 
         type:String,
+         default:""
         },
     postal:{ 
         type:String,
+         default:""
         },
     city:{ 
         type:String,
+        default:""
         },
     state:{ 
         type:String,
+         default:""
         },
     resetPasswordToken:String,
-    resetPasswordExpire:Date,
+    resetPasswordExpire:Date,  
     createdAt:{
         type:Date,
         default: Date.now
@@ -129,18 +134,19 @@ UserSchema.methods.getResetPasswordToken = async function () {
 
     //Generate token
     const resetToken = await crypto.randomBytes(20).toString('hex')   
-    // console.log(resetToken)
+    // console.log('kokoko',resetToken)
 
     //hash token and set to resetpasswordToken
     this.resetPasswordToken = await crypto.createHash('sha256').update(resetToken).digest('hex')
-    // console.log(this.resetPasswordToken)
+    console.log(this.resetPasswordToken)
 
     //Set expire    
     this.resetPasswordExpire = Date.now() + 10 * 60 * 1000
+    console.log('lll',this.resetPasswordExpire)
     return resetToken;
 }
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next) {    
     this.updated = Date.now();
     return next();
 });

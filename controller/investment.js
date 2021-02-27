@@ -91,10 +91,6 @@ exports.submit= async (req, res) => {
       console.log("okok")
       dollarWorthInBitcoin= req.body.amount
     }
-     
-          
-  
-   console.log(req.body.details)
   
    const details ={  
     amount:amt, 
