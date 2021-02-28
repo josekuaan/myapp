@@ -277,43 +277,41 @@ exports.forgotPassword = async (req, res, next) => {
     "+password"
   );
   if (!user)
-    return res.status(401).json({ success: false, msg: "user not found" });
+    return res.status(404).json({ success: false, msg: "user not found" });
 
   // console.log(user)
   //Get reset token
   const getResetToken = await user.getResetPasswordToken();
-  // console.log(getResetToken)
   await user.save({ validateBeforeSave: false });
-
+   
+   
   //Create reset url
 
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/auth/resetpassword/${getResetToken}`;
+  const resetUrl = `https://eager-bhaskara-b7b184.netlify.app/reset-password/${getResetToken}`;
+
   const message = `You are recieving this email because you (or someone else) has requested for a change of password.
     Please click the url to reset your password \n\n ${resetUrl}`;
   // console.log('========',message);
 
   try {
-    reqult = sendEmail({
+     sendEmail({
       email: user.email,
       subject: "Password reset token",
       message: message,
+      res
     });
-    // console.log(result);
+    
 
-    return res
+     res
       .status(200)
-      .json({ success: true, data: "Email sent", msg_id: result.messageId });
+      .json({ success: true, data: "Email sent"});
   } catch (err) {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
 
     user.save({ validateBeforeSave: false });
 
-    return res
-      .status(500)
-      .json({ success: true, data: "Email could not be sent" });
+    return res.status(500).json({ success: false, data: "Email could not be sent" });
   }
 };
 //@desc    Upload bootcamp photo

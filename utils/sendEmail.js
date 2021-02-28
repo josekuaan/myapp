@@ -25,23 +25,16 @@ const sendEmail = async (options) =>{
         };
         console.log(mailData)
 
-  return transporter.verify(async function(error, success) {
+
  
-    if (error) {
-      console.log(error);
-    } else {
-       await transporter.sendMail(mailData, function(err,info){
-        if(err){ return err
-      }else {
-        console.log('Message sent %s', info)
-        return info
-      
-    }
-      })
-   }}); 
-   
-   
+  
+        transporter.sendMail(mailData, function (err, info) {
+         if(err)
+        return  console.log("something went wrong",err)
+         else
+        return  console.log(info.messageId) 
+      });
     
 }
 
-module.exports = sendEmail;
+module.exports = sendEmail; 

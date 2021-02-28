@@ -94,8 +94,8 @@ const UserSchema= new mongoose.Schema({
         type:String,
          default:""
         },
-    resetPasswordToken:String,
-    resetPasswordExpire:Date,  
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,  
     createdAt:{
         type:Date,
         default: Date.now
@@ -110,7 +110,9 @@ const UserSchema= new mongoose.Schema({
 
 // Encrpt password before save
 UserSchema.pre('save', async function(next){   
-console.log(this.password)
+if(this.isModified('password')){
+    next()
+}
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)  
     next()

@@ -26,7 +26,7 @@ Router.get("/getMe/:id",protect,getMe)
 Router.put("/update-account/:id",protect,updateAccount)
 Router.put("/update/:id",protect,authorize('admin'),updateUserDetails)
 Router.delete("/delete/:id",protect,authorize('admin'),deleteUser)
-Router.put("/resetpassword/:resettoken",protect, resetPassword ) 
+Router.put("/reset-password/:resettoken",protect, resetPassword ) 
 Router.put("/photo/:id",protect,uploadUserPhoto ) 
  
 
